@@ -1,0 +1,106 @@
+/* Color Schemes for 2048 Game */
+
+/* Default scheme (original) */
+.scheme-default {
+    --background-color: #faf8ef;
+    --text-color: #776e65;
+    --board-color: #bbada0;
+    --grid-cell-color: rgba(238, 228, 218, 0.35);
+    --button-color: #8f7a66;
+    --button-hover-color: #9f8b77;
+    --game-over-bg: rgba(238, 228, 218, 0.73);
+    
+    /* Tile colors */
+    --tile-2-bg: #eee4da;
+    --tile-2-color: #776e65;
+    --tile-4-bg: #ede0c8;
+    --tile-4-color: #776e65;
+    --tile-8-bg: #f2b179;
+    --tile-8-color: white;
+    --tile-16-bg: #f59563;
+    --tile-16-color: white;
+    --tile-32-bg: #f67c5f;
+    --tile-32-color: white;
+    --tile-64-bg: #f65e3b;
+    --tile-64-color: white;
+    --tile-128-bg: #edcf72;
+    --tile-128-color: white;
+    --tile-256-bg: #edcc61;
+    --tile-256-color: white;
+    --tile-512-bg: #edc850;
+    --tile-512-color: white;
+    --tile-1024-bg: #edc53f;
+    --tile-1024-color: white;
+    --tile-2048-bg: #edc22e;
+    --tile-2048-color: white;
+}
+
+/* Dark scheme */
+.scheme-dark {
+    --background-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --board-color: #333333;
+    --grid-cell-color: rgba(80, 80, 80, 0.35);
+    --button-color: #505050;
+    --button-hover-color: #606060;
+    --game-over-bg: rgba(40, 40, 40, 0.73);
+    
+    /* Tile colors */
+    --tile-2-bg: #505050;
+    --tile-2-color: #f0f0f0;
+    --tile-4-bg: #606060;
+    --tile-4-color: #f0f0f0;
+    --tile-8-bg: #707070;
+    --tile-8-color: #f0f0f0;
+    --tile-16-bg: #808080;
+    --tile-16-color: #f0f0f0;
+    --tile-32-bg: #4169e1;
+    --tile-32-color: #f0f0f0;
+    --tile-64-bg: #3a5fcd;
+    --tile-64-color: #f0f0f0;
+    --tile-128-bg: #1e90ff;
+    --tile-128-color: #f0f0f0;
+    --tile-256-bg: #00bfff;
+    --tile-256-color: #f0f0f0;
+    --tile-512-bg: #00ffff;
+    --tile-512-color: #1a1a1a;
+    --tile-1024-bg: #00ffbf;
+    --tile-1024-color: #1a1a1a;
+    --tile-2048-bg: #00ff80;
+    --tile-2048-color: #1a1a1a;
+}
+
+/* Pastel scheme */
+.scheme-pastel {
+    --background-color: #f5f5f5;
+    --text-color: #5a5a5a;
+    --board-color: #d1c4e9;
+    --grid-cell-color: rgba(209, 196, 233, 0.35);
+    --button-color: #b39ddb;
+    --button-hover-color: #9575cd;
+    --game-over-bg: rgba(209, 196, 233, 0.73);
+    
+    /* Tile colors */
+    --tile-2-bg: #e1bee7;
+    --tile-2-color: #5a5a5a;
+    --tile-4-bg: #ce93d8;
+    --tile-4-color: #5a5a5a;
+    --tile-8-bg: #ba68c8;
+    --tile-8-color: white;
+    --tile-16-bg: #ab47bc;
+    --tile-16-color: white;
+    --tile-32-bg: #9c27b0;
+    --tile-32-color: white;
+    --tile-64-bg: #8e24aa;
+    --tile-64-color: white;
+    --tile-128-bg: #7b1fa2;
+    --tile-128-color: white;
+    --tile-256-bg: #6a1b9a;
+    --tile-256-color: white;
+    --tile-512-bg: #4a148c;
+    --tile-512-color: white;
+    --tile-1024-bg: #4527a0;
+    --tile-1024-color: white;
+    --tile-2048-bg: #311b92;
+    --tile-2048-color: white;
+}

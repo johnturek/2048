@@ -1,13 +1,14 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #faf8ef;
-    color: #776e65;
+    background-color: var(--background-color);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .game-container {
@@ -28,7 +29,7 @@ body {
 h1 {
     font-size: 80px;
     margin: 0;
-    color: #776e65;
+    color: var(--text-color);
 }
 
 .scores {
@@ -37,11 +38,12 @@ h1 {
 }
 
 .score-box {
-    background: #bbada0;
+    background: var(--board-color);
     padding: 10px 15px;
     border-radius: 6px;
     text-align: center;
     min-width: 80px;
+    transition: background-color 0.3s ease;
 }
 
 .score-title {
@@ -70,7 +72,7 @@ h1 {
 }
 
 .game-button {
-    background: #8f7a66;
+    background: var(--button-color);
     color: white;
     border: none;
     border-radius: 6px;
@@ -78,19 +80,20 @@ h1 {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.1s;
 }
 
 .game-button:hover {
-    background: #9f8b77;
+    background: var(--button-hover-color);
 }
 
 .game-board-container {
-    background: #bbada0;
+    background: var(--board-color);
     border-radius: 6px;
     padding: 15px;
     margin-bottom: 20px;
     position: relative;
+    transition: background-color 0.3s ease;
 }
 
 .game-board {
@@ -103,15 +106,16 @@ h1 {
 }
 
 .grid-cell {
-    background: rgba(238, 228, 218, 0.35);
+    background: var(--grid-cell-color);
     border-radius: 3px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
     font-weight: bold;
-    color: #776e65;
+    color: var(--text-color);
     position: relative;
+    transition: background-color 0.3s ease;
 }
 
 .tile {
@@ -124,40 +128,59 @@ h1 {
     align-items: center;
     font-size: 35px;
     font-weight: bold;
-    color: #776e65;
-    transition: all 0.15s ease;
+    color: var(--text-color);
+    transition: all 0.15s ease, background-color 0.3s ease, color 0.3s ease;
     z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.tile-2 { background: #eee4da; }
-.tile-4 { background: #ede0c8; }
-.tile-8 { background: #f2b179; color: white; }
-.tile-16 { background: #f59563; color: white; }
-.tile-32 { background: #f67c5f; color: white; }
-.tile-64 { background: #f65e3b; color: white; }
+.tile-2 { 
+    background: var(--tile-2-bg); 
+    color: var(--tile-2-color); 
+}
+.tile-4 { 
+    background: var(--tile-4-bg); 
+    color: var(--tile-4-color); 
+}
+.tile-8 { 
+    background: var(--tile-8-bg); 
+    color: var(--tile-8-color); 
+}
+.tile-16 { 
+    background: var(--tile-16-bg); 
+    color: var(--tile-16-color); 
+}
+.tile-32 { 
+    background: var(--tile-32-bg); 
+    color: var(--tile-32-color); 
+}
+.tile-64 { 
+    background: var(--tile-64-bg); 
+    color: var(--tile-64-color); 
+}
 .tile-128 { 
-    background: #edcf72; 
-    color: white;
+    background: var(--tile-128-bg); 
+    color: var(--tile-128-color);
     font-size: 30px;
 }
 .tile-256 { 
-    background: #edcc61; 
-    color: white;
+    background: var(--tile-256-bg); 
+    color: var(--tile-256-color);
     font-size: 30px;
 }
 .tile-512 { 
-    background: #edc850; 
-    color: white;
+    background: var(--tile-512-bg); 
+    color: var(--tile-512-color);
     font-size: 30px;
 }
 .tile-1024 { 
-    background: #edc53f; 
-    color: white;
+    background: var(--tile-1024-bg); 
+    color: var(--tile-1024-color);
     font-size: 25px;
 }
 .tile-2048 { 
-    background: #edc22e; 
-    color: white;
+    background: var(--tile-2048-bg); 
+    color: var(--tile-2048-color);
     font-size: 25px;
 }
 
@@ -165,7 +188,43 @@ h1 {
     text-align: center;
     font-size: 14px;
     line-height: 1.5;
-    color: #776e65;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.color-scheme-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.color-scheme-selector label {
+    font-weight: bold;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.scheme-select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 2px solid var(--board-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scheme-select:hover {
+    border-color: var(--button-color);
+}
+
+.scheme-select:focus {
+    outline: none;
+    border-color: var(--button-hover-color);
+    box-shadow: 0 0 0 2px rgba(143, 122, 102, 0.2);
 }
 
 .game-over {
@@ -174,20 +233,22 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(238, 228, 218, 0.73);
+    background: var(--game-over-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     z-index: 100;
     border-radius: 6px;
+    transition: background-color 0.3s ease;
 }
 
 .game-over-message {
     font-size: 60px;
     font-weight: bold;
-    color: #776e65;
+    color: var(--text-color);
     margin-bottom: 20px;
+    transition: color 0.3s ease;
 }
 
 @keyframes appear {

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newGameButton = document.getElementById('new-game');
     const autoPlayButton = document.getElementById('auto-play');
     const stopAutoPlayButton = document.getElementById('stop-auto-play');
+    const colorSchemeSelect = document.getElementById('color-scheme');
 
     let boardSize = 4;
     let gameState = {
@@ -21,6 +22,31 @@ document.addEventListener('DOMContentLoaded', () => {
         createGrid();
         fetchGameState();
         setupEventListeners();
+        initColorScheme();
+    }
+    
+    // Initialize color scheme
+    function initColorScheme() {
+        // Get saved scheme from localStorage or default to 'default'
+        const savedScheme = localStorage.getItem('colorScheme') || 'default';
+        
+        // Apply the saved scheme
+        applyColorScheme(savedScheme);
+        
+        // Update the select element
+        colorSchemeSelect.value = savedScheme;
+    }
+    
+    // Apply color scheme
+    function applyColorScheme(scheme) {
+        // Remove any existing scheme classes
+        document.body.classList.remove('scheme-default', 'scheme-dark', 'scheme-pastel');
+        
+        // Add the selected scheme class
+        document.body.classList.add(`scheme-${scheme}`);
+        
+        // Save preference to localStorage
+        localStorage.setItem('colorScheme', scheme);
     }
 
     // Create the game grid
@@ -575,6 +601,12 @@ document.addEventListener('DOMContentLoaded', () => {
         newGameButton.addEventListener('click', resetGame);
         autoPlayButton.addEventListener('click', toggleAutoPlay);
         stopAutoPlayButton.addEventListener('click', toggleAutoPlay);
+        
+        // Color scheme selector
+        colorSchemeSelect.addEventListener('change', (e) => {
+            const selectedScheme = e.target.value;
+            applyColorScheme(selectedScheme);
+        });
     }
 
     // Initialize the game
