@@ -16,5 +16,9 @@ COPY --from=build /app/out .
 
 # Expose port and set entry point
 EXPOSE 8080
-ENV ASPNETCORE_URLS=http://*:8080
-ENTRYPOINT ["dotnet", "Game2048Web.dll"]
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV PORT=8080
+
+# Make sure the app listens on the correct port
+CMD ["dotnet", "Game2048Web.dll", "--urls", "http://0.0.0.0:8080"]
