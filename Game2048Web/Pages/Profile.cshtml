@@ -1,0 +1,274 @@
+@page
+@model Game2048Web.Pages.ProfileModel
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Your 2048 Profile</h1>
+        <p>Welcome back, @User.Identity?.Name!</p>
+        
+        @if (Model.UserRank > 0)
+        {
+            <div class="user-rank">
+                <span class="rank-badge">Rank #@Model.UserRank</span> out of @Model.TotalPlayers players
+            </div>
+        }
+        else if (Model.TotalPlayers > 0)
+        {
+            <div class="user-rank">
+                <span>Play more games to earn a rank!</span> (@Model.TotalPlayers players on leaderboard)
+            </div>
+        }
+    </div>
+
+    <div class="profile-stats">
+        <div class="stat-card">
+            <div class="stat-title">High Score</div>
+            <div class="stat-value">@Model.UserStats.HighScore</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Games Played</div>
+            <div class="stat-value">@Model.UserStats.GamesPlayed</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Highest Tile</div>
+            <div class="stat-value">@Model.UserStats.HighestTile</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Last Played</div>
+            <div class="stat-value">@(Model.UserStats.LastPlayed.ToString("MMM dd, yyyy"))</div>
+        </div>
+    </div>
+    
+    <div class="profile-edit">
+        <h2>Edit Profile</h2>
+        
+        @if (!string.IsNullOrEmpty(Model.StatusMessage))
+        {
+            <div class="alert alert-success">
+                @Model.StatusMessage
+            </div>
+        }
+        
+        <form method="post">
+            <div class="form-group">
+                <label for="Nickname">Nickname (displayed on leaderboard)</label>
+                <input type="text" class="form-control" id="Nickname" name="Nickname" value="@Model.UserStats.Nickname" maxlength="20" />
+                <small class="form-text text-muted">This name will be displayed on the leaderboard. Max 20 characters.</small>
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <label>
+                    <input type="checkbox" name="ShowInLeaderboard" @(Model.UserStats.ShowInLeaderboard ? "checked" : "") />
+                    Show my scores on the leaderboard
+                </label>
+            </div>
+            
+            <button type="submit" class="btn-save">Save Changes</button>
+        </form>
+    </div>
+
+    <div class="profile-actions">
+        <a href="/" class="btn-play">Play 2048</a>
+        <a href="/Leaderboard" class="btn-leaderboard">View Leaderboard</a>
+        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn-settings">Account Settings</a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #776e65;
+        }
+
+        .profile-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .user-rank {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #776e65;
+        }
+        
+        .rank-badge {
+            background-color: #8f7a66;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .profile-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            width: calc(50% - 15px);
+            background-color: #eee4da;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-title {
+            font-size: 18px;
+            color: #776e65;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #776e65;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-play, .btn-settings {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-play {
+            background-color: #8f7a66;
+            color: white;
+        }
+
+        .btn-settings {
+            background-color: #bbada0;
+            color: white;
+        }
+
+        .btn-play:hover {
+            background-color: #7c6957;
+        }
+
+        .btn-settings:hover {
+            background-color: #a89e92;
+        }
+        
+        .btn-leaderboard {
+            background-color: #bbada0;
+            color: white;
+        }
+        
+        .btn-leaderboard:hover {
+            background-color: #a89e92;
+        }
+        
+        .profile-edit {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0 30px 0;
+        }
+        
+        .profile-edit h2 {
+            color: #776e65;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-text {
+            font-size: 14px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        .btn-save {
+            background-color: #8f7a66;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-save:hover {
+            background-color: #7c6957;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        @@media (max-width: 600px) {
+            .stat-card {
+                width: 100%;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+            }
+            
+            .btn-play, .btn-settings, .btn-leaderboard {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+}

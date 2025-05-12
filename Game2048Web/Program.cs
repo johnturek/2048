@@ -1,10 +1,29 @@
 using Game2048Web.Services;
+using Game2048Web.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Let ASP.NET Core handle the default port binding
 // In production environments like Fly.io, the PORT environment variable will be used
 // through the configuration in Dockerfile and fly.toml
+
+// Add database context
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(connectionString));
+
+// Add Identity services
+builder.Services.AddDefaultIdentity<IdentityUser>(options => {
+    options.SignIn.RequireConfirmedAccount = false; // For simplicity, don't require email confirmation
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false; // Make passwords a bit easier
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -16,8 +35,9 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new Game2048Web.Controllers.DirectionJsonConverter()); 
     });
 
-// Add game service
+// Add services
 builder.Services.AddSingleton<GameService>();
+builder.Services.AddScoped<UserStatsService>();
 
 // Add CORS
 builder.Services.AddCors(options =>

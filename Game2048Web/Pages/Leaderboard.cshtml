@@ -1,0 +1,229 @@
+@page
+@model Game2048Web.Pages.LeaderboardModel
+@{
+    ViewData["Title"] = "Leaderboard";
+}
+
+<div class="leaderboard-container">
+    <div class="leaderboard-header">
+        <h1>2048 Hall of Fame</h1>
+        <p>Top players and their highest scores</p>
+        <div class="leaderboard-meta">
+            <span>Last updated: @DateTime.Now.ToString("MMM dd, yyyy HH:mm")</span>
+            <a href="/Leaderboard" class="refresh-btn">Refresh</a>
+        </div>
+    </div>
+
+    @if (Model.TopPlayers.Any())
+    {
+        <div class="leaderboard-table">
+            <div class="leaderboard-row header">
+                <div class="rank">Rank</div>
+                <div class="player">Player</div>
+                <div class="score">Score</div>
+                <div class="highest-tile">Highest Tile</div>
+            </div>
+            
+            @for (int i = 0; i < Model.TopPlayers.Count; i++)
+            {
+                var player = Model.TopPlayers[i];
+                var rank = i + 1;
+                var rankClass = rank <= 3 ? $"top-{rank}" : "";
+                
+                <div class="leaderboard-row @rankClass">
+                    <div class="rank">@rank</div>
+                    <div class="player">@(string.IsNullOrEmpty(player.Nickname) ? "Anonymous" : player.Nickname)</div>
+                    <div class="score">@player.HighScore</div>
+                    <div class="highest-tile">@player.HighestTile</div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="no-scores">
+            <p>No scores yet. Be the first to make it to the leaderboard!</p>
+        </div>
+    }
+    
+    <div class="leaderboard-actions">
+        <a href="/" class="btn-play">Play 2048</a>
+        <a href="/Profile" class="btn-profile">My Profile</a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .leaderboard-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #776e65;
+        }
+
+        .leaderboard-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .leaderboard-meta {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .refresh-btn {
+            background-color: #8f7a66;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #7c6957;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .leaderboard-row {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .leaderboard-row.header {
+            background-color: #8f7a66;
+            color: white;
+            font-weight: bold;
+        }
+
+        .leaderboard-row:last-child {
+            border-bottom: none;
+        }
+
+        .rank {
+            width: 15%;
+            font-weight: bold;
+        }
+
+        .player {
+            width: 40%;
+        }
+
+        .score {
+            width: 20%;
+            text-align: right;
+        }
+
+        .highest-tile {
+            width: 25%;
+            text-align: right;
+        }
+
+        .top-1 {
+            background-color: rgba(237, 194, 46, 0.2);
+        }
+
+        .top-2 {
+            background-color: rgba(192, 192, 192, 0.2);
+        }
+
+        .top-3 {
+            background-color: rgba(205, 127, 50, 0.2);
+        }
+
+        .no-scores {
+            text-align: center;
+            padding: 30px;
+            color: #776e65;
+            font-style: italic;
+        }
+
+        .leaderboard-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-play, .btn-profile {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-play {
+            background-color: #8f7a66;
+            color: white;
+        }
+
+        .btn-profile {
+            background-color: #bbada0;
+            color: white;
+        }
+
+        .btn-play:hover {
+            background-color: #7c6957;
+        }
+
+        .btn-profile:hover {
+            background-color: #a89e92;
+        }
+
+        @@media (max-width: 600px) {
+            .leaderboard-row {
+                padding: 10px;
+            }
+            
+            .rank {
+                width: 15%;
+            }
+            
+            .player {
+                width: 35%;
+            }
+            
+            .score {
+                width: 25%;
+            }
+            
+            .highest-tile {
+                width: 25%;
+            }
+            
+            .leaderboard-actions {
+                flex-direction: column;
+            }
+            
+            .btn-play, .btn-profile {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+}

@@ -223,6 +223,44 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOverDiv.appendChild(message);
         gameOverDiv.appendChild(button);
         document.querySelector('.game-board-container').appendChild(gameOverDiv);
+        
+        // Save game statistics for logged-in users
+        saveGameStats();
+    }
+    
+    // Save game statistics to the server
+    async function saveGameStats() {
+        try {
+            // Calculate highest tile on the board
+            let highestTile = 0;
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize; j++) {
+                    if (gameState.board[i][j] > highestTile) {
+                        highestTile = gameState.board[i][j];
+                    }
+                }
+            }
+            
+            // Send the stats to the server
+            const response = await fetch('/api/game/save-stats', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    score: gameState.score,
+                    highestTile: highestTile
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Failed to save stats: ${response.status} ${response.statusText}`);
+            }
+            
+            console.log('Game statistics saved successfully');
+        } catch (error) {
+            console.error('Error saving game statistics:', error);
+        }
     }
 
     // Handle keyboard input

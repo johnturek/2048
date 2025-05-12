@@ -1,5 +1,6 @@
 using Game2048Web.Models;
 using Game2048Web.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,10 +12,14 @@ namespace Game2048Web.Controllers
     public class GameController : ControllerBase
     {
         private readonly GameService _gameService;
+        private readonly UserStatsService _userStatsService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public GameController(GameService gameService)
+        public GameController(GameService gameService, UserStatsService userStatsService, UserManager<IdentityUser> userManager)
         {
             _gameService = gameService;
+            _userStatsService = userStatsService;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -54,6 +59,36 @@ namespace Game2048Web.Controllers
             var game = _gameService.GetGame();
             return Ok(game);
         }
+        
+        [HttpPost("save-stats")]
+        public async Task<IActionResult> SaveStats([FromBody] SaveStatsRequest request)
+        {
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest("Request body is empty");
+                }
+                
+                // Only save stats if user is authenticated
+                if (User.Identity.IsAuthenticated)
+                {
+                    var userId = _userManager.GetUserId(User);
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        var user = await _userManager.GetUserAsync(User);
+                        string defaultNickname = user?.UserName ?? "Player";
+                        await _userStatsService.UpdateGameStatsAsync(userId, request.Score, request.HighestTile, defaultNickname);
+                    }
+                }
+                
+                return Ok(new { Success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error saving stats: {ex.Message}");
+            }
+        }
 
         [HttpPost("autoplay/start")]
         public async Task<IActionResult> StartAutoPlay()
@@ -89,6 +124,12 @@ namespace Game2048Web.Controllers
     public class MoveRequest
     {
         public Direction Direction { get; set; }
+    }
+    
+    public class SaveStatsRequest
+    {
+        public int Score { get; set; }
+        public int HighestTile { get; set; }
     }
     
     // Add a model binder to handle direction values
