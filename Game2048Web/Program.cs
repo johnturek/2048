@@ -11,6 +11,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add database context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Ensure database directory exists
+if (!string.IsNullOrEmpty(connectionString))
+{
+    var dataSource = connectionString.Split(';')
+        .FirstOrDefault(s => s.Trim().StartsWith("Data Source=", StringComparison.OrdinalIgnoreCase));
+    
+    if (dataSource != null)
+    {
+        var dbPath = dataSource.Substring("Data Source=".Length).Trim();
+        var dbDir = Path.GetDirectoryName(dbPath);
+        
+        if (!string.IsNullOrEmpty(dbDir) && !Directory.Exists(dbDir))
+        {
+            Directory.CreateDirectory(dbDir);
+        }
+    }
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 

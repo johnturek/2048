@@ -13,10 +13,14 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app .
 
+# Create a volume for SQLite database persistence
+VOLUME /app/data
+
 # Configure for Fly.io
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV PORT=8080
+ENV ConnectionStrings__DefaultConnection="Data Source=/app/data/game2048.db;Cache=Shared"
 EXPOSE 8080
 
 # Run the application
