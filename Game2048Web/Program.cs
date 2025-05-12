@@ -12,7 +12,8 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = null; // Preserve property names
-        options.JsonSerializerOptions.Converters.Add(new Game2048Web.Controllers.DirectionJsonConverter()); // Add custom converter for Direction enum
+        // Reference the DirectionJsonConverter from the Controllers namespace
+        options.JsonSerializerOptions.Converters.Add(new Game2048Web.Controllers.DirectionJsonConverter()); 
     });
 
 // Add game service
