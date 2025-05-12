@@ -17,7 +17,7 @@ COPY --from=build /app .
 VOLUME /app/data
 
 # Configure for Fly.io
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS="http://0.0.0.0:8080"
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV PORT=8080
 ENV ConnectionStrings__DefaultConnection="Data Source=/app/data/game2048.db;Cache=Shared"
