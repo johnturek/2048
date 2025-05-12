@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: game-2048
+    runtime: dotnet
+    buildCommand: dotnet publish Game2048Web/Game2048Web.csproj -c Release -o publish
+    startCommand: cd publish && dotnet Game2048Web.dll
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
