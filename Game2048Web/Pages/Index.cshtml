@@ -5,6 +5,8 @@
     Layout = "_Layout";
 }
 
+<link rel="stylesheet" href="~/css/color-schemes.css" asp-append-version="true" />
+
 <div class="game-container">
     <div class="game-header">
         <h1>2048</h1>
@@ -27,6 +29,15 @@
             <button id="auto-play" class="game-button">Auto Play</button>
             <button id="stop-auto-play" class="game-button" style="display: none;">Stop Auto Play</button>
         </div>
+    </div>
+    
+    <div class="color-scheme-selector">
+        <label for="color-scheme">Color Scheme:</label>
+        <select id="color-scheme" class="scheme-select">
+            <option value="default">Default</option>
+            <option value="dark">Dark</option>
+            <option value="pastel">Pastel</option>
+        </select>
     </div>
 
     <div class="game-board-container">

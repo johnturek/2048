@@ -2,12 +2,9 @@ using Game2048Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Get the port from the environment variable or use 8080 as default
-string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-string url = $"http://0.0.0.0:{port}";
-
-// Configure the web server to listen on the specified port
-builder.WebHost.UseUrls(url);
+// Let ASP.NET Core handle the default port binding
+// In production environments like Fly.io, the PORT environment variable will be used
+// through the configuration in Dockerfile and fly.toml
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -15,7 +12,8 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = null; // Preserve property names
-        options.JsonSerializerOptions.Converters.Add(new Game2048Web.Controllers.DirectionJsonConverter()); // Add custom converter for Direction enum
+        // Reference the DirectionJsonConverter from the Controllers namespace
+        options.JsonSerializerOptions.Converters.Add(new Game2048Web.Controllers.DirectionJsonConverter()); 
     });
 
 // Add game service
