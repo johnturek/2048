@@ -2,11 +2,12 @@ using Game2048Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Kestrel to listen on port 8080 for Fly.io
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(8080);
-});
+// Get the port from the environment variable or use 8080 as default
+string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+string url = $"http://0.0.0.0:{port}";
+
+// Configure the web server to listen on the specified port
+builder.WebHost.UseUrls(url);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
