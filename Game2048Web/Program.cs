@@ -2,11 +2,9 @@ using Game2048Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure port binding for all environments
-// In development, this will use the default port (5000/5001)
-// In production, it will use the PORT environment variable or 8080
-string port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-builder.WebHost.UseUrls($"http://localhost:{port}");
+// Let ASP.NET Core handle the default port binding
+// In production environments like Fly.io, the PORT environment variable will be used
+// through the configuration in Dockerfile and fly.toml
 
 // Add services to the container.
 builder.Services.AddRazorPages();
